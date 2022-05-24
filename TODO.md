@@ -6,8 +6,8 @@
   - Why you selected these approaches
   - Evaluations of the performance of trained model(s)
   - Your ultimate judgement with supporting analysis and evidence
-  - Independent evalutation: find more photos of signs and see if it can classify them correctly
-    - We should not be re-training the model for this step, it's a "real world" test
+    - Independent evaluation: find more photos of signs and see if it can classify them correctly
+      - We should not be re-training the model for this step, it's a "real world" test
 
 ## Model options
 A bunch of different neural network designs probably:
