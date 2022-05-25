@@ -2,20 +2,20 @@ import pandas as pd
 import tensorflow as tf
 
 def fit_model(data, class_column, train_generator, val_generator, image_size, epochs):
+    # Calculate how many different classes of image there are.
     num_of_classes = len(pd.unique(data[class_column]))
 
+    # Create a VGG 3x3 model, which has three blocks of convolution & pooling 
+    # layers.
     model = tf.keras.Sequential([
-        # VGG block 1
         input_layer(image_size),
         conv_layer(image_size),
         pooling_layer(),
         
-        # VGG block 2
         conv_layer(image_size * 2),
         conv_layer(image_size * 2),
         pooling_layer(),
         
-        # VGG block 3
         conv_layer(image_size * 4),
         conv_layer(image_size * 4),
         pooling_layer(),
@@ -29,16 +29,18 @@ def fit_model(data, class_column, train_generator, val_generator, image_size, ep
         optimizer = "adam",
         loss = tf.keras.losses.CategoricalCrossentropy(from_logits = True),
         metrics = ["categorical_accuracy"])
-    
+
+    # Fit the model to the data.    
     history = model.fit(
         train_generator,
         validation_data = val_generator, 
         epochs = epochs, 
         verbose = 0)
     
-    return history.history
+    return model, history.history
 
 def input_layer(image_size):
+    # The first layer in the VGG model. Takes input from the image itself.
     return tf.keras.layers.Conv2D(
         image_size, 
         (3, 3), 
@@ -49,6 +51,7 @@ def input_layer(image_size):
         input_shape = (image_size, image_size, 3))
 
 def conv_layer(size):
+    # A convolution layer in the VGG model.
     return tf.keras.layers.Conv2D(
         size, 
         (3, 3), 
@@ -56,4 +59,5 @@ def conv_layer(size):
         padding = "same")
 
 def pooling_layer():
+    # A pooling layer in the VGG model.
     return tf.keras.layers.MaxPooling2D((2, 2))
