@@ -17,7 +17,7 @@ def prep_data(file, split):
     
     return data, train_data, val_data
 
-def create_generator(data, class_column, image_size, batch_size):
+def create_generator(data, class_column, image_size, batch_size, preprocessor = None):
     # Create new image data generator object. This generates images to feed to 
     # the ML model, by taking the raw images and randomly applying rotation, 
     # translations, and brightness adjustments.
@@ -28,7 +28,9 @@ def create_generator(data, class_column, image_size, batch_size):
         rotation_range = 15, 
         width_shift_range = 0.2,
         height_shift_range = 0.2, 
-        brightness_range = [0.5, 1.5])
+        brightness_range = [0.5, 1.5],
+        
+        preprocessing_function = preprocessor)
 
     # Feed the generator the raw images from the paths provided in the "path"
     # column of the dataframe.
