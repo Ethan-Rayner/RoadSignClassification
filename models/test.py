@@ -61,3 +61,29 @@ def show_visual_results(model, images, num_to_test):
         plt.axis("off")
 
         i += 1
+
+def score_accuracy(model, images, num_to_test):
+    class_names = []
+    for class_name in images.class_indices:
+        class_names.append(class_name)
+    
+    results_cols = MAX_PER_COLUMN
+    results_rows = math.ceil(num_to_test / MAX_PER_COLUMN)
+    plt.figure(figsize = (results_cols * 2, results_rows * 2))
+
+    i = 0
+    score = 0
+    for x, y in images:
+        if i >= num_to_test:
+            break
+
+        y_prediction = model.predict(x, verbose=0)
+
+        actual_class = np.argmax(y[0])
+        predicted_class = np.argmax(y_prediction[0])
+        if actual_class == predicted_class:
+            score += 1
+
+        i += 1
+    
+    return score / num_to_test
