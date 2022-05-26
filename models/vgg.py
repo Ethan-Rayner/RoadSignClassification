@@ -25,6 +25,7 @@ def fit_model(data, class_column, train_generator, val_generator, image_size, ep
         tf.keras.layers.Dense(num_of_classes),
     ])
 
+    # Initialize computation graph.
     model.compile(
         optimizer = "adam",
         loss = tf.keras.losses.CategoricalCrossentropy(from_logits = True),
