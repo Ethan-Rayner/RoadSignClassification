@@ -4,6 +4,7 @@ import pandas as pd
 import matplotlib.pyplot as plt
 from sklearn.model_selection import train_test_split
 from tensorflow.keras.preprocessing.image import ImageDataGenerator
+from models.f1_score import calc_f1_scores
 
 MAX_PER_COLUMN = 5
 
@@ -40,13 +41,14 @@ def show_visual_results(model, images, num_to_test):
 
     i = 0
     for x, y in images:
-        if i >= num_to_test:
+        i += 1
+        if i > num_to_test:
             break
 
-        y_prediction = model.predict(x, verbose=0)
+        y_prediction = model.predict(x, verbose = 0)
 
         x = np.squeeze(x)
-        plt.subplot(results_rows, results_cols, i + 1)
+        plt.subplot(results_rows, results_cols, i)
         plt.imshow(x, cmap='gray')
 
         actual_class = np.argmax(y[0])
@@ -60,10 +62,9 @@ def show_visual_results(model, images, num_to_test):
 
         plt.axis("off")
 
-        i += 1
 
 def score_accuracy(model, images, num_to_test):
-    # todo: just use
+    # todo?: just use
     # model.evaluate(test_split_images, test_labels_split) as per
     # https://www.kaggle.com/code/tusharsharma118/belgian-traffic-dataset/notebook [34]
 
@@ -71,14 +72,11 @@ def score_accuracy(model, images, num_to_test):
     for class_name in images.class_indices:
         class_names.append(class_name)
     
-    results_cols = MAX_PER_COLUMN
-    results_rows = math.ceil(num_to_test / MAX_PER_COLUMN)
-    plt.figure(figsize = (results_cols * 2, results_rows * 2))
-
     i = 0
     score = 0
     for x, y in images:
-        if i >= num_to_test:
+        i += 1
+        if i > num_to_test:
             break
 
         y_prediction = model.predict(x, verbose=0)
@@ -88,6 +86,28 @@ def score_accuracy(model, images, num_to_test):
         if actual_class == predicted_class:
             score += 1
 
-        i += 1
     
     return score / num_to_test
+
+def score_f1(model, images, num_to_test):
+    class_names = []
+    for class_name in images.class_indices:
+        class_names.append(class_name)
+    
+    i = 0
+    actuals = []
+    preds = []
+    for x, y in images:
+        i += 1
+        if i > num_to_test:
+            break
+
+        y_prediction = model.predict(x, verbose=0)
+
+        actual_class = np.argmax(y[0])
+        predicted_class = np.argmax(y_prediction[0])
+        actuals.append(actual_class)
+        preds.append(predicted_class)
+    
+    f1_scores = calc_f1_scores(actuals, preds, len(class_names))
+    return { class_names[i]: f1_scores[i] for i in range(len(class_names)) }
