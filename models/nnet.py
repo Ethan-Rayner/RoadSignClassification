@@ -37,4 +37,4 @@ def dense_layer(size):
 
 def output_layer(num_of_classes):
     # The final layer containing the number of classes.
-    return tf.keras.layers.Dense(num_of_classes)
+    return tf.keras.layers.Dense(num_of_classes, activation = "softmax")
