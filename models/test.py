@@ -62,7 +62,6 @@ def show_visual_results(model, images, num_to_test):
 
         plt.axis("off")
 
-
 def score_accuracy(model, images, num_to_test):
     # todo?: just use
     # model.evaluate(test_split_images, test_labels_split) as per
@@ -111,3 +110,14 @@ def score_f1(model, images, num_to_test):
     
     f1_scores = calc_f1_scores(actuals, preds, len(class_names))
     return { class_names[i]: f1_scores[i] for i in range(len(class_names)) }
+
+def print_f1_scores(model, images, num_to_test):
+    f1_scores = score_f1(model, images, num_to_test)
+
+    print("F1 Scores (per class):")
+    for k in f1_scores:
+        v = f1_scores[k]
+        print("    {:<20} {:.1f}".format(k + ":", v * 100))
+
+    f1_scores_vals = [f1_scores[k] for k in f1_scores]
+    print("Mean F1 score: {:.1f}".format(np.mean(f1_scores_vals) * 100))

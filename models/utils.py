@@ -46,7 +46,6 @@ def create_generator(data, class_column, image_size, batch_size, preprocessor = 
 
     return iterator
 
-
 def history_graph(history):
     plt.figure(figsize = (10, 5))
     
