@@ -24,7 +24,8 @@ def create_test_generator(file, class_column, image_size, batch_size, preprocess
         x_col = "path",
         y_col = class_column,
         target_size = (image_size, image_size),
-        batch_size = batch_size)
+        batch_size = batch_size,
+        color_mode="grayscale")
 
     return iterator
 
@@ -46,10 +47,9 @@ def show_visual_results(model, images, num_to_test):
 
         x = np.squeeze(x)
         plt.subplot(results_rows, results_cols, i + 1)
-        plt.imshow(x)
+        plt.imshow(x, cmap='gray')
 
         actual_class = np.argmax(y[0])
-        actual_class_name = class_names[actual_class]
         predicted_class = np.argmax(y_prediction[0])
         predicted_class_name = class_names[predicted_class]
         

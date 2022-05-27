@@ -52,7 +52,7 @@ def input_layer(image_size):
         padding = "same", 
 
         # Is this 3 for RGB? Because our images are only B+W...
-        input_shape = (image_size, image_size, 3))
+        input_shape = (image_size, image_size, 1))
 
 def conv_layer(size):
     # A convolution layer in the VGG model.

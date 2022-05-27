@@ -12,7 +12,7 @@ def prep_data(file, split):
         data, 
         test_size = split, 
         random_state = 0)
-    print("Test set: {} rows\nValidation set: {} rows"
+    print("Training set: {} rows\nValidation set: {} rows"
         .format(train_data.shape[0], val_data.shape[0]))
     
     return data, train_data, val_data
@@ -41,7 +41,8 @@ def create_generator(data, class_column, image_size, batch_size, preprocessor = 
         x_col = "path",
         y_col = class_column,
         target_size = (image_size, image_size),
-        batch_size = batch_size)
+        batch_size = batch_size,
+        color_mode="grayscale")
 
     return iterator
 
