@@ -31,6 +31,9 @@ def fit_model(data, class_column, train_generator, val_generator, image_size, ep
         loss = tf.keras.losses.CategoricalCrossentropy(from_logits = True),
         metrics = ["categorical_accuracy"])
 
+    # todo: use "sparse_categorical_crossentropy" like
+    # https://www.kaggle.com/code/tusharsharma118/belgian-traffic-dataset/notebook [28]
+
     # Fit the model to the data.    
     history = model.fit(
         train_generator,

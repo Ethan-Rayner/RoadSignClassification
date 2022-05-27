@@ -63,6 +63,10 @@ def show_visual_results(model, images, num_to_test):
         i += 1
 
 def score_accuracy(model, images, num_to_test):
+    # todo: just use
+    # model.evaluate(test_split_images, test_labels_split) as per
+    # https://www.kaggle.com/code/tusharsharma118/belgian-traffic-dataset/notebook [34]
+
     class_names = []
     for class_name in images.class_indices:
         class_names.append(class_name)

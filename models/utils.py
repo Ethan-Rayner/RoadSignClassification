@@ -25,6 +25,7 @@ def create_generator(data, class_column, image_size, batch_size, preprocessor = 
         # Rescaling converts the RGB values to [0, 1] rather than [0, 255]
         rescale = 1.0 / 255,
         
+        zoom_range = 0.2,
         rotation_range = 15, 
         width_shift_range = 0.2,
         height_shift_range = 0.2, 
