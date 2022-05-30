@@ -18,9 +18,13 @@ def fit_model(data, class_column, train_generator, val_generator, image_size, ep
         tf.keras.layers.Dense(OUTPUT_CLASSES)
     ])
 
-    model.compile(optimizer='adam', #this used to be SGD and idk if i can just change it to adam without changing other stuff but the results look better
-              loss=tf.keras.losses.CategoricalCrossentropy(from_logits=True),
-              metrics = [utils.f1_metric(OUTPUT_CLASSES)])
+    model.compile(
+        optimizer='adam', #this used to be SGD and idk if i can just change it to adam without changing other stuff but the results look better
+        loss=tf.keras.losses.CategoricalCrossentropy(from_logits=True),
+        metrics = [
+            utils.f1_metric(OUTPUT_CLASSES),
+            utils.f1_metric_per_class(OUTPUT_CLASSES),
+            "categorical_accuracy"])
     
     history = model.fit(train_generator, validation_data = val_generator, epochs=epochs, verbose=0)
     
