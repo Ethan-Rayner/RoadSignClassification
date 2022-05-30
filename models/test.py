@@ -60,8 +60,8 @@ def show_visual_results(model, images, num_to_test):
 
         plt.axis("off")
 
-def score_f1(model, images):
-    results = model.evaluate(images, verbose = 0)
+def score_f1(model, images, test_size = 128):
+    results = model.evaluate(images, verbose = 0, batch_size = test_size)
     print("Overall F1 Macro Score: {:.4f}".format(results[1]))
     
     class_names = []
