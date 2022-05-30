@@ -9,7 +9,8 @@ DESTINATION_DIRECTORY = "test-images"
 
 import os
 import shutil
-import PIL
+from PIL import Image
+from PIL import ImageOps
 
 def main():
     if os.path.exists(DESTINATION_DIRECTORY):
@@ -18,13 +19,13 @@ def main():
     for img_file in os.scandir(SOURCE_DIRECTORY):
         img_name = img_file.name
         img_path = os.path.join(SOURCE_DIRECTORY, img_name)
-        img = PIL.Image.open(img_path)
+        img = Image.open(img_path)
 
         shape = img_name.split("-")[0]
         type = img_name.split("-")[1]
         final_file_name = img_name.split("-")[2]
 
-        new_img = PIL.ImageOps.grayscale(img)
+        new_img = ImageOps.grayscale(img)
 
         in_size = min(img.size[0], img.size[1])
         in_box = (
