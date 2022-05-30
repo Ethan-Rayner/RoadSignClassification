@@ -68,8 +68,13 @@ def score_f1(model, images, test_size = 128):
     for class_name in images.class_indices:
         class_names.append(class_name)
     
-    print("\nF1 Scores per class: ", end = "")
-    for i in range(len(class_names)):
-        print("{} = {:.4f}".format(class_names[i], results[2][i]), end = "")
-        if i != len(class_names) - 1:
-            print(", ", end = "")
+    fig = plt.figure()
+    ax = fig.add_axes([0, 0, 1, 1])
+    ax.set_xticks([i for i in range(len(class_names))])
+    ax.set_xticklabels(labels = class_names, rotation = 90)
+
+    ax.set_ylabel("F1 Scores")
+    scores = [results[2][i] for i in range(len(class_names))]
+    ax.bar(class_names, scores, color="#0055ff")
+
+    plt.show()

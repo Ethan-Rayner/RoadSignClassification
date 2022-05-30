@@ -59,7 +59,7 @@ def f1_metric_per_class(num_of_classes):
         name = "f1_score_per_class")
 
 def history_graph(history):
-    plt.figure(figsize = (12, 4))
+    plt.figure(figsize = (10, 4))
     
     # The first graph is a graph of Loss vs Epochs
     plt.subplot(1, 3, 1)
