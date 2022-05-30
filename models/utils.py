@@ -1,6 +1,7 @@
 import pandas as pd
-from sklearn.model_selection import train_test_split
 import matplotlib.pyplot as plt
+import tensorflow_addons as tfa
+from sklearn.model_selection import train_test_split
 from tensorflow.keras.preprocessing.image import ImageDataGenerator
 
 def prep_data(file, split):
@@ -46,6 +47,11 @@ def create_generator(data, class_column, image_size, batch_size, preprocessor = 
 
     return iterator
 
+def f1_metric(num_of_classes):
+    return tfa.metrics.F1Score(
+        num_classes = num_of_classes,
+        average = "macro")
+
 def history_graph(history):
     plt.figure(figsize = (10, 5))
     
@@ -57,12 +63,12 @@ def history_graph(history):
     plt.ylabel("Loss")
     plt.legend(["Train", "Validation"], loc = "upper left")
 
-    # The second graph is a graph of Accuracy vs Epochs
+    # The second graph is a graph of F1 Score vs Epochs
     plt.subplot(1, 2, 2)
-    plt.plot(history["categorical_accuracy"], "r--")
-    plt.plot(history["val_categorical_accuracy"], "b--")
+    plt.plot(history["f1_score"], "r--")
+    plt.plot(history["val_f1_score"], "b--")
     plt.xlabel("Epochs")
-    plt.ylabel("Accuracy")
+    plt.ylabel("F1 Score")
     plt.legend(["Train", "Validation"], loc = "upper left")
 
     plt.show()
