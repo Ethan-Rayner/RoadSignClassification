@@ -1,5 +1,6 @@
 import tensorflow as tf
 import pandas as pd
+import models.utils as utils
 
 
 
@@ -19,7 +20,7 @@ def fit_model(data, class_column, train_generator, val_generator, image_size, ep
 
     model.compile(optimizer='adam', #this used to be SGD and idk if i can just change it to adam without changing other stuff but the results look better
               loss=tf.keras.losses.CategoricalCrossentropy(from_logits=True),
-              metrics=['categorical_accuracy'])
+              metrics = [utils.f1_metric(OUTPUT_CLASSES)])
     
     history = model.fit(train_generator, validation_data = val_generator, epochs=epochs, verbose=0)
     
