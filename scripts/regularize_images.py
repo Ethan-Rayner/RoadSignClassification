@@ -1,22 +1,23 @@
-# Takes images from test-images-raw and makes them 28x28 greyscale images.
-# Image are saved to test-images.
-# Usage: python scripts/regularize_images.py
+# Takes images from SOURCE_DIRECTORY and makes them 28x28 greyscale images.
+# Image are saved to DESTINATION_DIRECTORY.
+# Usage: python regularize_images.py
 
 FINAL_HEIGHT = 28
 FINAL_WIDTH = 28
+SOURCE_DIRECTORY = "test-images-raw"
+DESTINATION_DIRECTORY = "test-images"
 
 import os
 import shutil
 import PIL
-from PIL import Image
 
 def main():
-    if os.path.exists("test-images"):
-        shutil.rmtree("test-images")
+    if os.path.exists(DESTINATION_DIRECTORY):
+        shutil.rmtree(DESTINATION_DIRECTORY)
 
-    for img_file in os.scandir("test-images-raw"):
+    for img_file in os.scandir(SOURCE_DIRECTORY):
         img_name = img_file.name
-        img_path = os.path.join("test-images-raw", img_name)
+        img_path = os.path.join(SOURCE_DIRECTORY, img_name)
         img = PIL.Image.open(img_path)
 
         shape = img_name.split("-")[0]
@@ -37,15 +38,15 @@ def main():
         new_img = new_img.resize(out_size, box = in_box)
 
         make_dirs(shape, type)
-        new_img.save(os.path.join("test-images", shape, type, final_file_name))
+        new_img.save(os.path.join(DESTINATION_DIRECTORY, shape, type, final_file_name))
 
 def make_dirs(shape, type):
-    if not os.path.exists("test-images"):
-        os.mkdir("test-images")
-    if not os.path.exists(os.path.join("test-images", shape)):
-        os.mkdir(os.path.join("test-images", shape))
-    if not os.path.exists(os.path.join("test-images", shape, type)):
-        os.mkdir(os.path.join("test-images", shape, type))
+    if not os.path.exists(DESTINATION_DIRECTORY):
+        os.mkdir(DESTINATION_DIRECTORY)
+    if not os.path.exists(os.path.join(DESTINATION_DIRECTORY, shape)):
+        os.mkdir(os.path.join(DESTINATION_DIRECTORY, shape))
+    if not os.path.exists(os.path.join(DESTINATION_DIRECTORY, shape, type)):
+        os.mkdir(os.path.join(DESTINATION_DIRECTORY, shape, type))
 
 if __name__ == "__main__":
     main()
