@@ -9,7 +9,7 @@ def fit_model(data, class_column, train_generator, val_generator, image_size, ep
     
     INPUT_DIM = (image_size,image_size, 1)
     OUTPUT_CLASSES = len(pd.unique(data[class_column]))
-    HIDDEN_LAYER_DIM = 256
+    HIDDEN_LAYER_DIM = 112
 
     model = tf.keras.Sequential([
         tf.keras.layers.Flatten(input_shape=INPUT_DIM),
