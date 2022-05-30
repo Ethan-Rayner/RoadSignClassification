@@ -1,6 +1,7 @@
 import pandas as pd
 import tensorflow as tf
 import models.nnet as nnet
+import models.utils as utils
 
 def fit_model(data, class_column, train_generator, val_generator, image_size, epochs):
     # Calculate how many different classes of image there are.
@@ -31,7 +32,7 @@ def fit_model(data, class_column, train_generator, val_generator, image_size, ep
     model.compile(
         optimizer = "adam",
         loss = tf.keras.losses.CategoricalCrossentropy(from_logits = True),
-        metrics = ["categorical_accuracy"])
+        metrics = [utils.f1_metric(num_of_classes)])
 
     # Fit the model to the data.    
     history = model.fit(

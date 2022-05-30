@@ -6,9 +6,9 @@ import pandas as pd
 def fit_model(data, class_column, train_generator, val_generator, image_size, epochs):
     #MLP
     
-    INPUT_DIM = (image_size,image_size,3)
+    INPUT_DIM = (image_size,image_size, 1)
     OUTPUT_CLASSES = len(pd.unique(data[class_column]))
-    HIDDEN_LAYER_DIM = 112
+    HIDDEN_LAYER_DIM = 256
 
     model = tf.keras.Sequential([
         tf.keras.layers.Flatten(input_shape=INPUT_DIM),
