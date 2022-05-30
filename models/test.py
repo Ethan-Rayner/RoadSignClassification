@@ -60,32 +60,16 @@ def show_visual_results(model, images, num_to_test):
 
         plt.axis("off")
 
-def score_accuracy(model, images, num_to_test):
-    # todo?: just use
-    # model.evaluate(test_split_images, test_labels_split) as per
-    # https://www.kaggle.com/code/tusharsharma118/belgian-traffic-dataset/notebook [34]
-
+def score_f1(model, images):
+    results = model.evaluate(images, verbose = 0)
+    print("Overall F1 Macro Score: {:.4f}".format(results[1]))
+    
     class_names = []
     for class_name in images.class_indices:
         class_names.append(class_name)
     
-    i = 0
-    score = 0
-    for x, y in images:
-        i += 1
-        if i > num_to_test:
-            break
-
-        y_prediction = model.predict(x, verbose=0)
-
-        actual_class = np.argmax(y[0])
-        predicted_class = np.argmax(y_prediction[0])
-        if actual_class == predicted_class:
-            score += 1
-
-    
-    return score / num_to_test
-
-def score_f1(model, images):
-    results = model.evaluate(images, verbose = 0)
-    print("F1 Score: {:.4f}".format(results[1]))
+    print("\nF1 Scores per class: ", end = "")
+    for i in range(len(class_names)):
+        print("{} = {:.4f}".format(class_names[i], results[2][i]), end = "")
+        if i != len(class_names) - 1:
+            print(", ", end = "")

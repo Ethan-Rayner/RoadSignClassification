@@ -32,7 +32,10 @@ def fit_model(data, class_column, train_generator, val_generator, image_size, ep
     model.compile(
         optimizer = "adam",
         loss = tf.keras.losses.CategoricalCrossentropy(from_logits = True),
-        metrics = [utils.f1_metric(num_of_classes)])
+        metrics = [
+            utils.f1_metric(num_of_classes), 
+            utils.f1_metric_per_class(num_of_classes),
+            "categorical_accuracy"])
 
     # Fit the model to the data.    
     history = model.fit(

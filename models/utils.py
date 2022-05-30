@@ -52,11 +52,17 @@ def f1_metric(num_of_classes):
         num_classes = num_of_classes,
         average = "macro")
 
+def f1_metric_per_class(num_of_classes):
+    return tfa.metrics.F1Score(
+        num_classes = num_of_classes,
+        average = None,
+        name = "f1_score_per_class")
+
 def history_graph(history):
-    plt.figure(figsize = (10, 5))
+    plt.figure(figsize = (12, 4))
     
     # The first graph is a graph of Loss vs Epochs
-    plt.subplot(1, 2, 1)
+    plt.subplot(1, 3, 1)
     plt.plot(history["loss"], "r--")
     plt.plot(history["val_loss"], "b--")
     plt.xlabel("Epochs")
@@ -64,11 +70,19 @@ def history_graph(history):
     plt.legend(["Train", "Validation"], loc = "upper left")
 
     # The second graph is a graph of F1 Score vs Epochs
-    plt.subplot(1, 2, 2)
+    plt.subplot(1, 3, 2)
     plt.plot(history["f1_score"], "r--")
     plt.plot(history["val_f1_score"], "b--")
     plt.xlabel("Epochs")
     plt.ylabel("F1 Score")
+    plt.legend(["Train", "Validation"], loc = "upper left")
+
+    # The third graph is a graph of Accuracy vs Epochs
+    plt.subplot(1, 3, 3)
+    plt.plot(history["categorical_accuracy"], "r--")
+    plt.plot(history["val_categorical_accuracy"], "b--")
+    plt.xlabel("Epochs")
+    plt.ylabel("Accuracy")
     plt.legend(["Train", "Validation"], loc = "upper left")
 
     plt.show()
