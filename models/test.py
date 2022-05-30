@@ -2,9 +2,7 @@ import math
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
-from sklearn.model_selection import train_test_split
 from tensorflow.keras.preprocessing.image import ImageDataGenerator
-from models.f1_score import calc_f1_scores
 
 MAX_PER_COLUMN = 5
 
@@ -88,36 +86,6 @@ def score_accuracy(model, images, num_to_test):
     
     return score / num_to_test
 
-def score_f1(model, images, num_to_test):
-    class_names = []
-    for class_name in images.class_indices:
-        class_names.append(class_name)
-    
-    i = 0
-    actuals = []
-    preds = []
-    for x, y in images:
-        i += 1
-        if i > num_to_test:
-            break
-
-        y_prediction = model.predict(x, verbose=0)
-
-        actual_class = np.argmax(y[0])
-        predicted_class = np.argmax(y_prediction[0])
-        actuals.append(actual_class)
-        preds.append(predicted_class)
-    
-    f1_scores = calc_f1_scores(actuals, preds, len(class_names))
-    return { class_names[i]: f1_scores[i] for i in range(len(class_names)) }
-
-def print_f1_scores(model, images, num_to_test):
-    f1_scores = score_f1(model, images, num_to_test)
-
-    print("F1 Scores (per class):")
-    for k in f1_scores:
-        v = f1_scores[k]
-        print("    {:<20} {:.1f}".format(k + ":", v * 100))
-
-    f1_scores_vals = [f1_scores[k] for k in f1_scores]
-    print("Mean F1 score: {:.1f}".format(np.mean(f1_scores_vals) * 100))
+def score_f1(model, images):
+    results = model.evaluate(images, verbose = 0)
+    print("F1 Score: {:.4f}".format(results[1]))
